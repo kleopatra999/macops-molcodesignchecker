@@ -48,7 +48,7 @@ static const SecCSFlags kSigningFlags = kSecCSDefaultFlags;
 @interface MOLCodesignChecker ()
 /// Array of `MOLCertificate's` representing the chain of certs the represented
 /// executable was signed with.
-@property(copy) NSMutableArray *certificates;
+@property NSMutableArray *certificates;
 
 /// Cached designated requirement
 @property SecRequirementRef requirement;
@@ -84,8 +84,8 @@ static const SecCSFlags kSigningFlags = kSecCSDefaultFlags;
     _signingInformation = CFBridgingRelease(signingDict);
 
     // Get array of certificates.
-    NSArray *certs = _signingInformation[(id)kSecCodeInfoCertificates];
-    _certificates = [MOLCertificate certificatesFromArray:certs];
+    NSArray *certs = _signingInformation[(__bridge id)kSecCodeInfoCertificates];
+    _certificates = [[MOLCertificate certificatesFromArray:certs] mutableCopy];
 
     _codeRef = codeRef;
     CFRetain(_codeRef);
